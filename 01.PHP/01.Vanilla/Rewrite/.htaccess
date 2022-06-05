@@ -1,0 +1,76 @@
+# Não indexar os arquivos - Impede de arquivos dentro de diretórios serem vistos
+Options -Indexes
+#-----------------------------------------------
+
+#Ligando o motor de escrita de URL
+RewriteEngine on
+#-----------------------------------------------
+
+#Exemplo 1: Apontando redirecionamento para o index
+
+#Regras de escrita de URL - RewriteRule origem destino
+#Quando digitado api na barra de endereço, irá redirecionar ao index.php
+#api = Expressão regular - Se existir na barra de tarefas api escrito no inicio, meio ou fim, irá processar com index.php
+#Teste 1 = http://localhost/Tutoriais/Reescrita%20de%20URLs%20com%20HTACCESS%20em%20servidores%20APACHE/api
+#Teste 2 = http://localhost/Tutoriais/Reescrita%20de%20URLs%20com%20HTACCESS%20em%20servidores%20APACHE/api-teste
+#api = Expressão regular - Se existir na barra de tarefas api escrito no inicio, meio ou fim, irá processar com index.php
+# RewriteRule api ./index.php
+#-----------------------------------------------
+
+#Exemplo 2: Apontando redirecionamento para o index
+
+#api = Expressão regular - Se existir na barra de tarefas api escrito no inicio, irá processar com index.php
+#Teste = http://localhost/Tutoriais/Reescrita%20de%20URLs%20com%20HTACCESS%20em%20servidores%20APACHE/api
+# RewriteRule ^api ./index.php
+#-----------------------------------------------
+
+#Exemplo 3: Apontando redirecionamento para o index
+
+#api = Expressão regular - Se existir na barra de tarefas api escrito no fim, irá processar com index.php
+#Teste = http://localhost/Tutoriais/Reescrita%20de%20URLs%20com%20HTACCESS%20em%20servidores%20APACHE/teste-api
+# RewriteRule api$ ./index.php
+#-----------------------------------------------
+
+#Exemplo 4: utilizando flags
+
+#[NC]    = NO CASE SENSITIVE
+#[R=301] = Redirect permanente
+#[R=302] = Redirect temporário
+
+# RewriteRule google https://www.google.com [NC,R=302]
+
+#-----------------------------------------------
+#Exemplo 5: Grupos
+
+#query params = módulo e ação
+
+#^painel$    = raiz
+#([])        = grupo
+#([a-z0-9]+) = letras de 'a' a 'z' e numeros de '0' a '9'
+# +          = mais de um
+# ?          = Indica que será passado query params
+# ?modulo=$1 = Indicando grupo 1
+
+# Teste = http://localhost/Tutoriais/Reescrita%20de%20URLs%20com%20HTACCESS%20em%20servidores%20APACHE/painel
+# ? = Opcional para funcionar com barra ou sem barra
+RewriteRule ^painel/?$ ./index.php [NC]
+
+# Teste = http://localhost/Tutoriais/Reescrita%20de%20URLs%20com%20HTACCESS%20em%20servidores%20APACHE/painel/pedidos
+RewriteRule ^painel/([a-z0-9]+)/?$ ./admin.php?modulo=$1 [NC]
+
+# Permitindo Query Params
+# QSA = QUERY STRING APPEND = Irá juntar com a URL = permite a passagem
+RewriteRule ^painel/([a-z0-9]+)/([a-z0-9]+)/?$ ./admin.php?modulo=$1&acao=$2 [NC,QSA]
+
+# Qualquer coisa digitada na URL
+
+# %{} = Variáveis
+# -f  = Operador
+# Validando se o caminho até o arquivo atual não é um arquivo válido - Não existe
+# Verifica se o texto passado é um arquivo
+# Se não for um arquivo ou diretório redireciona para o router
+# Operadores também pode ser expressões regulares
+# ! url inteira tem que ser um arquivo ou diretório
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./router.php

@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Headers "Authorization"
+</IfModule>

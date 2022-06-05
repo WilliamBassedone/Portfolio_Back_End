@@ -1,0 +1,43 @@
+Esses processos foram feitos utilizando o console do navegador Google Chrome
+
+"Exemplo: Fazendo um post"
+
+01.Fazendo requisição ao token:
+
+fetch('https://localhost/web-exercicios/autenticacao_por_token/logar.php')
+    .then(res => res.text())
+    .then(token => console.log(token));
+
+---------------------------------------------------------------------------------------
+
+02.Guardando o token em uma session storage:
+
+fetch('https://localhost/web-exercicios/autenticacao_por_token/logar.php')
+    .then(res => res.text())
+    .then(token => sessionStorage.setItem('token', token));
+
+---------------------------------------------------------------------------------------
+
+03.Enviando dados via cabeçalho HTTP para uma URL que precisa desse token:
+
+fetch('https://localhost/web-exercicios/autenticacao_por_token/url-privada.php',{
+    headers: {
+        Authorization: sessionStorage.getItem('token')
+    }
+});
+
+
+Ir até network, headers, request Headers, Authorization e verificar se foi enviado o token
+
+---------------------------------------------------------------------------------------
+
+04.Verificando se processo deu certo:
+
+fetch('https://localhost/web-exercicios/autenticacao_por_token/url-privada.php',{
+    headers: {
+        Authorization: sessionStorage.getItem('token')
+    }
+}).then(res => res.text())
+  .then(usuario => console.log(usuario));
+
+Deverá aparecer o usuário
