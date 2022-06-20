@@ -1,0 +1,42 @@
+. Criar os diretórios
+
+    Core
+    Controllers
+    Models
+
+. Criar os arquivos na raiz
+
+    .htaccess
+    config.php
+    environment.php
+    composer.json
+    index.php
+
+. Criar os arquivos dentro da pasta Core
+
+    Controller.php
+    Core.php
+    Model.php
+
+. Criar os arquivos dentro da pasta Controllers
+
+    HomeController.php
+    NotFoundController.php
+
+. Instalar autoload do composer
+    composer install
+
+Core
+
+    Core       -> tem a função de definir o controller, action e paramêtros apartir da url do browser
+    Controller -> quando extendida abre a possibilidade de utilizar as funções das views
+    Model      -> Quando extendida teremos a possibilidade de utilização do banco de dados
+
+
+Models
+
+    Onde ficam os SQL's
+
+Views
+
+    Onde ficam os HTML's
